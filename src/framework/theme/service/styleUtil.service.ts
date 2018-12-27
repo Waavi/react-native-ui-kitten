@@ -183,14 +183,14 @@ function createStateDescriptionNew(state: string[], separator: string) {
 }
 
 function getPermutatedArray(array: any[]) {
-  let result: any[][] = [];
+  const result: any[][] = [];
 
   array.forEach((item: any, i: number) => {
-    let rest: any[] = getPermutatedArray(array.slice(0, i).concat(array.slice(i + 1)));
-    if(!rest.length) {
-      result.push([array[i]])
+    const rest: any[] = getPermutatedArray(array.slice(0, i).concat(array.slice(i + 1)));
+    if (!rest.length) {
+      result.push([array[i]]);
     } else {
-      rest.forEach((restItem: any, j: number) => result.push([array[i]].concat(rest[j])))
+      rest.forEach((restItem: any, j: number) => result.push([array[i]].concat(rest[j])));
     }
   });
 
