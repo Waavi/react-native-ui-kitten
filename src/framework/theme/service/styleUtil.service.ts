@@ -169,7 +169,40 @@ export function normalizeStates(states: string[], separator = SEPARATOR_STATE): 
   if (preprocess.length === 0) {
     return preprocess;
   } else {
+    // console.log(createStateDescriptionNew(['a', 'b', 'c'], separator))
     return createStateDescription(preprocess, separator, []);
+  }
+}
+
+function createStateDescriptionNew(state: string[], separator: string) {
+  const permutatedStatesArray = createStateSubsequencesArrays(state)
+    .map((item: string[]) => getPermutatedArray(item));
+  return []
+    .concat(...permutatedStatesArray)
+    .map((item: string[]) => item.join(separator));
+}
+
+function getPermutatedArray(array: any[]) {
+  let result: any[][] = [];
+
+  array.forEach((item: any, i: number) => {
+    let rest: any[] = getPermutatedArray(array.slice(0, i).concat(array.slice(i + 1)));
+    if(!rest.length) {
+      result.push([array[i]])
+    } else {
+      rest.forEach((restItem: any, j: number) => result.push([array[i]].concat(rest[j])))
+    }
+  });
+
+  return result;
+}
+
+function createStateSubsequencesArrays(state: string[]) {
+  if (state.length === 1) {
+    return [state];
+  } else {
+    const subarr = createStateSubsequencesArrays(state.slice(1));
+    return subarr.concat(subarr.map(e => e.concat(state[0])), [[state[0]]]);
   }
 }
 
